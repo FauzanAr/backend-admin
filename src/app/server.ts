@@ -7,6 +7,8 @@ import logger from '../helpers/utils/logger';
 
 import mysql from '../helpers/databases/mysql/connection';
 
+import userApi from '../modules/user/handlers/api';
+
 class Server {
     server : Express
 
@@ -21,7 +23,7 @@ class Server {
         });
 
         // Modules Users
-        
+        this.server.post('/users/v1/login', userApi.userLogin);
     }
 
     async init(port: number) {

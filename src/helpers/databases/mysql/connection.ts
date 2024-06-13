@@ -13,13 +13,9 @@ const init = async () => {
   }
 };
 
-const getConnection = async () => {
-    if (!prisma) {
-        await init();
-    }
-
+const getConnection = () => {
     return prisma;
-}
+};
 
 export default {
   init,

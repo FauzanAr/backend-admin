@@ -2,13 +2,13 @@ import ERROR from '../error';
 import status from './http_status_code';
 import Response from '../interfaces/response';
 
-interface Wrapper {
+export interface Wrapper {
     err: any,
     data: any,
 }
 
-const data = (data: Wrapper) => ({ err: null, data });
-const error = (error: Wrapper) => ({ err: error, data: null });
+const data = (data: any): Wrapper => ({ err: null, data }) ;
+const error = (error: any): Wrapper => ({ err: error, data: null });
 const response = (res: Response, type: string, result: any, message = '', responseCode = 200) => {
     let status = true;
     let data = result.data;
@@ -39,6 +39,8 @@ const checkErrorCode = (error :any) => {
             return status.HttpError.INTERNAL_SERVICE_ERROR;
         case ERROR.UnauthorizedError:
             return status.HttpError.UNAUTHORIZED;
+        case ERROR.UnprocessableEntity:
+            return status.HttpError.UNPROCESSABLE_ENTITY;
         default:
             return status.HttpError.INTERNAL_SERVICE_ERROR;
     }

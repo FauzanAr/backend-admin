@@ -32,6 +32,32 @@
             }
         }
     },
+    "/users/v1/register": {
+        "post": {
+            "summary": "Allow user register",
+            "tags": ["Users"],
+            "requestBody": {
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schema/request/user-register"
+                        }
+                    }
+                }
+            },
+            "responses": {
+                "200": {
+                    "description": "Success register"
+                },
+                "400": {
+                    "description": "Bad Request error"
+                },
+                "422": {
+                    "description": "Validation error"
+                }
+            }
+        }
+    },
     "tags": [
 
             {
@@ -57,6 +83,48 @@
                         "password": {
                             "type": "string",
                             "description": "User password"
+                        }
+                    }
+                },
+                "user-register": {
+                    "type": "object",
+                    "properties": {
+                        "corporateId": {
+                            "type": "string",
+                            "description": "Unique corporate id"
+                        },
+                        "corporateName": {
+                            "type": "string",
+                            "description": "Corporate name"
+                        },
+                        "userId": {
+                            "type": "string",
+                            "description": "Unique user id"
+                        },
+                        "userName": {
+                            "type": "string",
+                            "description": "User name"
+                        },
+                        "role": {
+                            "type": "string",
+                            "description": "User role",
+                            "default": "Maker",
+                            "enum": [
+                                "Maker",
+                                "Approver"
+                            ]
+                        },
+                        "phoneNumber": {
+                            "type": "string",
+                            "description": "User phone number"
+                        },
+                        "email": {
+                            "type": "string",
+                            "description": "User email"
+                        },
+                        "verifCode": {
+                            "type": "string",
+                            "description": "User six verif code"
                         }
                     }
                 }

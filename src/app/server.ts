@@ -29,6 +29,7 @@ class Server {
 
         // Modules Users
         this.server.post('/users/v1/login', userApi.userLogin);
+        this.server.post('/users/v1/register', userApi.userRegister);
     }
 
     async init(port: number) {

@@ -3,6 +3,9 @@ import Request from '../helpers/interfaces/request';
 import Response from '../helpers/interfaces/response';
 import cors from 'cors';
 import bodyParser from 'body-parser';
+import logger from '../helpers/utils/logger';
+
+import mysql from '../helpers/databases/mysql/connection';
 
 class Server {
     server : Express
@@ -22,8 +25,11 @@ class Server {
     }
 
     async init(port: number) {
+        await Promise.all([
+            mysql.init()
+        ]);
         this.server.listen(port, () => {
-            console.log(`App running on port: ${port}`);
+            logger.info(`App running on port: ${port}`);
         });
     }
 }

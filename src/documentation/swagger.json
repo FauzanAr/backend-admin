@@ -1,0 +1,67 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Backend Admin",
+        "version": "1.0.0",
+        "description": "Backend Admin API Documentation with Swagger"
+    },
+    "paths": {
+      "/users/v1/login": {
+        "post": {
+            "summary": "Allow user login",
+            "tags": ["Users"],
+            "requestBody": {
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schema/request/user-login"
+                        }
+                    }
+                }
+            },
+            "responses": {
+                "200": {
+                    "description": "Success login"
+                },
+                "400": {
+                    "description": "Bad Request error"
+                },
+                "422": {
+                    "description": "Validation error"
+                }
+            }
+        }
+    },
+    "tags": [
+
+            {
+                "name": "Users",
+                "description": "The users managing API"
+            }
+        ]
+    },
+    "components": {
+        "schema": {
+            "request": {
+                "user-login": {
+                    "type": "object",
+                    "properties": {
+                        "userId": {
+                            "type": "string",
+                            "description": "Unique user id"
+                        },
+                        "corporateId": {
+                            "type": "string",
+                            "description": "Unique corporate id"
+                        },
+                        "password": {
+                            "type": "string",
+                            "description": "User password"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+  

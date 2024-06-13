@@ -18,15 +18,19 @@ const userLogin = async (req: Request, res: Response) => {
             return result;
         }
 
-        return await QueryHandler.userLogin(payload)
+        return await QueryHandler.userLogin(result.data)
     }
 
     const sendResponse = async (result: Wrapper) => {
         (result.err) ? wrapper.response(res, 'fail', result)
-            : wrapper.response(res, 'success', result, 'Get All Pokemon Success');
+            : wrapper.response(res, 'success', result, 'Login user success');
     };
 
     sendResponse(await getData(validatedData));
+}
+
+const userRegister = async (req: Request, res: Response) => {
+    
 }
 
 export default {

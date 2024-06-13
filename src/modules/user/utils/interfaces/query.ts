@@ -3,6 +3,6 @@ export interface GetUserByEmail {
 }
 
 export interface GetUserByUserIdAndCorporateId {
-    userId: number
+    userId: string
     corporateId: number
 }

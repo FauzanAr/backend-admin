@@ -4,6 +4,9 @@ import Response from '../helpers/interfaces/response';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import logger from '../helpers/utils/logger';
+import morgan from 'morgan';
+import swagger from './swagger';
+
 
 import mysql from '../helpers/databases/mysql/connection';
 
@@ -17,6 +20,8 @@ class Server {
 
         this.server.use(cors());
         this.server.use(bodyParser.json());
+        this.server.use(morgan('tiny'));
+        swagger(this.server);
 
         this.server.get('/', (req: Request, res: Response) => {
             res.send({'message': 'server up and running'});

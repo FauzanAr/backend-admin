@@ -1,3 +1,4 @@
+import BadRequestError from "../../../../helpers/error/bad_request_error";
 import NotFoundError from "../../../../helpers/error/not_found_error";
 import MySQL from "../../../../helpers/interfaces/mysql";
 import wrapper from "../../../../helpers/utils/wrapper";
@@ -11,46 +12,58 @@ class Query {
     }
 
     async getUserByEmail(payload: GetUserByEmail) {
-        const result = await this.mysql.user.findUnique({
-            where: {
-                email: payload.email
+        try {
+            const result = await this.mysql.user.findUnique({
+                where: {
+                    email: payload.email
+                }
+            })
+    
+            if (!result) {
+                return wrapper.error(new NotFoundError(''))
             }
-        })
-
-        if (!result) {
-            return wrapper.error(new NotFoundError(''))
+            
+            return wrapper.data(result);
+        } catch (error) {
+            return wrapper.error(new BadRequestError('Failed to get user!'));
         }
-        
-        return wrapper.data(result);
     }
 
     async getUserByUserIdAndCorporateId(payload: GetUserByUserIdAndCorporateId) {
-        const result = await this.mysql.user.findUnique({
-            where: {
-                userId: payload.userId,
-                corporateId: payload.corporateId,
-            },
-        });
-
-        if (!result) {
-            return wrapper.error(new NotFoundError(''));
+        try {
+            const result = await this.mysql.user.findUnique({
+                where: {
+                    userId: payload.userId,
+                    corporateId: payload.corporateId,
+                },
+            });
+    
+            if (!result) {
+                return wrapper.error(new NotFoundError(''));
+            }
+    
+            return wrapper.data(result);
+        } catch (error) {
+            return wrapper.error(new BadRequestError('Failed to get user!'));
         }
-
-        return wrapper.data(result);
     }
 
     async getUserOtp(payload: GetUserOtpByEmail) {
-        const result = await this.mysql.userOtp.findUnique({
-            where: {
-                email: payload.email
-            },
-        });
-
-        if (!result) {
-            return wrapper.error(new NotFoundError('OTP Not found!'));
+        try {
+            const result = await this.mysql.userOtp.findUnique({
+                where: {
+                    email: payload.email
+                },
+            });
+    
+            if (!result) {
+                return wrapper.error(new NotFoundError('OTP Not found!'));
+            }
+    
+            return wrapper.data(result);
+        } catch (error) {
+            return wrapper.error(new BadRequestError('Failed to get otp!'));
         }
-
-        return wrapper.data(result);
     }
 }
 

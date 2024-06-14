@@ -18,3 +18,7 @@ export interface CreateOTP {
     otp: string
     expiredAt: Date
 }
+
+export interface DeleteOTP {
+    email: string
+}

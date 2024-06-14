@@ -3,7 +3,7 @@ import MySQL from "../../../../helpers/interfaces/mysql";
 import { UserRegister, UserSendOtp } from "./command_model";
 import wrapper from "../../../../helpers/utils/wrapper";
 import { hash } from "../../../../helpers/utils/hash";
-import { CreateCorporate, CreateOTP, CreateUser } from "../../utils/interfaces/command";
+import { CreateCorporate, CreateOTP, CreateUser, DeleteOTP } from "../../utils/interfaces/command";
 import Command from "./command";
 import { generate6DigitOtp } from "../../../../helpers/utils/utils";
 import Query from '../query/query';
@@ -21,6 +21,26 @@ class User {
     }
 
     async userRegister(payload: UserRegister) {
+        const query: GetUserOtpByEmail = {
+            email: payload.email,
+        }
+
+        const otpData = await this.query.getUserOtp(query);
+        if (otpData.err) {
+            return otpData;
+        }
+
+        const otp: UserOtp = otpData.data;
+        const today = moment();
+        const expiredAt = moment(otp.expiredAt);
+        if (today.isAfter(expiredAt)) {
+            return wrapper.error(new BadRequestError('Your OTP has been expired! Please re-send the OTP!'))
+        }
+
+        if (payload.verifCode != otp.otp) {
+            return wrapper.error(new BadRequestError('OTP Incorrect!'));
+        }
+
         const hashedPassword = await hash(payload.password);
         if (hashedPassword.err) {
             return hashedPassword;
@@ -50,6 +70,11 @@ class User {
         if (createUser.err) {
             return createUser;
         }
+
+        const deleteQuery: DeleteOTP = {
+            email: payload.email,
+        }
+        this.command.deleteOtp(deleteQuery);
 
         return wrapper.data('success create user');
     }

@@ -47,7 +47,7 @@ class Query {
         });
 
         if (!result) {
-            return wrapper.error(new NotFoundError(''));
+            return wrapper.error(new NotFoundError('OTP Not found!'));
         }
 
         return wrapper.data(result);

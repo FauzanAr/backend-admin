@@ -10,7 +10,7 @@ const userRegister = z.object({
     role: z.enum(['Maker', 'Approver']),
     phoneNumber: z.string().min(1).max(18).transform(indonesianPhoneNumber),
     email: z.string().email().min(1).trim(),
-    verifCode: z.string().min(1).max(6).trim(),
+    verifCode: z.string().min(6).max(6).trim(),
     password: z.string().min(6).trim(),
 });
 

@@ -1,4 +1,4 @@
-import { CreateCorporate, CreateOTP, CreateUser } from "../../utils/interfaces/command";
+import { CreateCorporate, CreateOTP, CreateUser, DeleteOTP } from "../../utils/interfaces/command";
 import MySQL from "../../../../helpers/interfaces/mysql";
 import wrapper from "../../../../helpers/utils/wrapper";
 import BadRequestError from "../../../../helpers/error/bad_request_error";
@@ -90,6 +90,21 @@ class Command {
         } catch (error) {
             handlePrismaError(error);
             return wrapper.error(new BadRequestError('Error while saving OTP!'));
+        }
+    }
+
+    async deleteOtp(payload: DeleteOTP) {
+        try {
+            const result = await this.mysql.userOtp.delete({
+                where: {
+                    email: payload.email,
+                },
+            });
+
+            return wrapper.data(result);   
+        } catch (error) {
+            handlePrismaError(error);
+            return wrapper.error(new BadRequestError('Error while deleting OTP!'));
         }
     }
 }

@@ -5,7 +5,7 @@ import QueryHandler from '../repositories/query/query_handler';
 import queryModel, { UserLogin } from '../repositories/query/query_model';
 import validator from '../../../helpers/utils/validator';
 import CommandHandler from '../repositories/command/command_handler';
-import commandModel, { UserRegister } from '../repositories/command/command_model';
+import commandModel, { UserRegister, UserSendOtp } from '../repositories/command/command_model';
 
 const userLogin = async (req: Request, res: Response) => {
     const payload: UserLogin = {
@@ -61,7 +61,30 @@ const userRegister = async (req: Request, res: Response) => {
     sendResponse(await getData(validatedData));
 }
 
+const userSendOtp = async (req: Request, res: Response) => {
+    const payload: UserSendOtp = {
+        email: req.body?.email,
+    };
+
+    const validatedData = validator.isValidate(commandModel.userSendOtp, payload);
+    const getData = async (result: Wrapper) => {
+        if (result.err) {
+            return result;
+        }
+
+        return await CommandHandler.userSendOtp(result.data)
+    }
+
+    const sendResponse = async (result: Wrapper) => {
+        (result.err) ? wrapper.response(res, 'fail', result)
+            : wrapper.response(res, 'success', result, 'send otp success');
+    };
+
+    sendResponse(await getData(validatedData));
+}
+
 export default {
     userLogin,
     userRegister,
+    userSendOtp,
 }

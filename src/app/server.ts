@@ -30,6 +30,7 @@ class Server {
         // Modules Users
         this.server.post('/users/v1/login', userApi.userLogin);
         this.server.post('/users/v1/register', userApi.userRegister);
+        this.server.post('/users/v1/send/otp', userApi.userSendOtp);
     }
 
     async init(port: number) {

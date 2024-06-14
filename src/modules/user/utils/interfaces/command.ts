@@ -12,3 +12,9 @@ export interface CreateCorporate {
     id: number
     name: string
 }
+
+export interface CreateOTP {
+    email: string
+    otp: string
+    expiredAt: Date
+}

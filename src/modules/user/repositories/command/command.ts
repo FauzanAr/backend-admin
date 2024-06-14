@@ -1,4 +1,4 @@
-import { CreateCorporate, CreateUser } from "../../utils/interfaces/command";
+import { CreateCorporate, CreateOTP, CreateUser } from "../../utils/interfaces/command";
 import MySQL from "../../../../helpers/interfaces/mysql";
 import wrapper from "../../../../helpers/utils/wrapper";
 import BadRequestError from "../../../../helpers/error/bad_request_error";
@@ -66,6 +66,30 @@ class Command {
             }
 
             return wrapper.error(new BadRequestError('Error while saving user!'));
+        }
+    }
+
+    async upsertOtp(payload: CreateOTP) {
+        try {
+            const result = await this.mysql.userOtp.upsert({
+                where: {
+                    email: payload.email,
+                },
+                update: {
+                    otp: payload.otp,
+                    expiredAt: payload.expiredAt,
+                },
+                create: {
+                    email: payload.email,
+                    otp: payload.otp,
+                    expiredAt: payload.expiredAt,
+                },
+            });
+
+            return wrapper.data(result);   
+        } catch (error) {
+            handlePrismaError(error);
+            return wrapper.error(new BadRequestError('Error while saving OTP!'));
         }
     }
 }

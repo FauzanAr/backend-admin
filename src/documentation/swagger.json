@@ -125,6 +125,10 @@
                         "verifCode": {
                             "type": "string",
                             "description": "User six verif code"
+                        },
+                        "password": {
+                            "type":"string",
+                            "description": "User password"
                         }
                     }
                 }

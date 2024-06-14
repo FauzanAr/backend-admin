@@ -1,7 +1,7 @@
 -- CreateTable
 CREATE TABLE `User` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `userId` INTEGER NOT NULL,
+    `userId` VARCHAR(255) NOT NULL,
     `corporateId` INTEGER NOT NULL,
     `name` VARCHAR(200) NOT NULL,
     `role` VARCHAR(100) NOT NULL,
@@ -14,7 +14,6 @@ CREATE TABLE `User` (
     `lastLoginAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
     UNIQUE INDEX `User_userId_key`(`userId`),
-    UNIQUE INDEX `User_corporateId_key`(`corporateId`),
     UNIQUE INDEX `User_phoneNumber_key`(`phoneNumber`),
     UNIQUE INDEX `User_email_key`(`email`),
     PRIMARY KEY (`id`)
@@ -25,7 +24,6 @@ CREATE TABLE `Corporate` (
     `id` INTEGER NOT NULL,
     `name` VARCHAR(255) NOT NULL,
 
-    UNIQUE INDEX `Corporate_id_key`(`id`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 

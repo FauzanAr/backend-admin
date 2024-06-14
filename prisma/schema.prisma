@@ -10,7 +10,7 @@ datasource db {
 model User {
   id           Int       @id @default(autoincrement())
   userId       String    @unique @db.VarChar(255)
-  corporateId  Int       @unique
+  corporateId  Int
   corporate    Corporate @relation(fields: [corporateId], references: [id])
   name         String    @db.VarChar(200)
   role         String    @db.VarChar(100)
@@ -24,7 +24,7 @@ model User {
 }
 
 model Corporate {
-  id   Int    @id @unique
+  id   Int    @id
   name String @db.VarChar(255)
   User User[]
 }

@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, User } from '@prisma/client';
 import logger from '../../utils/logger';
 
 let prisma = new PrismaClient();
@@ -16,6 +16,9 @@ const init = async () => {
 const getConnection = () => {
     return prisma;
 };
+
+// Interfaces
+export { User }
 
 export default {
   init,

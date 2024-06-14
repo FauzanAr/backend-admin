@@ -41,6 +41,7 @@ const userRegister = async (req: Request, res: Response) => {
         email: req.body?.email,
         phoneNumber: req.body?.phoneNumber,
         verifCode: req.body?.verifCode,
+        password: req.body?.password,
     };
 
     const validatedData = validator.isValidate(commandModel.userRegister, payload);

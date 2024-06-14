@@ -2,8 +2,13 @@ import MySQL from "../../../../helpers/interfaces/mysql";
 import Query from "./query";
 import wrapper from "../../../../helpers/utils/wrapper";
 import { UserLogin } from "./query_model";
+import { GetUserByUserIdAndCorporateId } from "modules/user/utils/interfaces/query";
+import { compareHash } from "../../../../helpers/utils/hash";
+import { User } from '../../../../helpers/databases/mysql/connection';
+import UnauthorizedError from "../../../../helpers/error/unauthorized_error";
+import jwt from '../../../../helpers/auth/middleware';
 
-class User {
+class QueryDomain {
     private query: Query;
 
     constructor(mysql: MySQL) {
@@ -11,8 +16,35 @@ class User {
     }
 
     async userLogin (payload: UserLogin) {
-        return wrapper.data({'data': 'data'})
+        const query: GetUserByUserIdAndCorporateId = {
+            userId: payload.userId,
+            corporateId: Number(payload.corporateId),
+        }
+
+        const user = await this.query.getUserByUserIdAndCorporateId(query);
+        if (user.err) {
+            return user;
+        }
+
+        const data: User = user.data;
+        const compared = await compareHash(payload.password, data.password);
+        if (compared.err || !compared.data ) {
+            return wrapper.error(new UnauthorizedError('Password not match!'));
+        }
+
+        const jwtBody = {
+            id: data.id,
+            userId: data.userId,
+            corporateId: data.corporateId,
+            name: data.name,
+            role: data.role,
+            phoneNumber: data.phoneNumber,
+            email: data.email,
+            lastLoginAt: data.lastLoginAt,
+        };
+        const token = jwt.generateToken(jwtBody)
+        return wrapper.data(token)
     }
 }
 
-export default User;
+export default QueryDomain;

@@ -7,6 +7,9 @@ const config = {
     auth: {
         privateKey: process.env.PRIVATE_KEY || '',
     },
+    brevo: {
+        apiKey: process.env.BREVO_API_KEY || '',
+    },
 };
 
 export default config;

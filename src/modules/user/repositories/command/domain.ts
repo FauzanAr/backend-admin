@@ -7,9 +7,10 @@ import { CreateCorporate, CreateOTP, CreateUser, DeleteOTP } from "../../utils/i
 import Command from "./command";
 import { generate6DigitOtp } from "../../../../helpers/utils/utils";
 import Query from '../query/query';
-import { GetUserOtpByEmail } from 'modules/user/utils/interfaces/query';
+import { GetUserOtpByEmail } from '../../utils/interfaces/query';
 import { UserOtp } from '../../../../helpers/databases/mysql/connection';
 import BadRequestError from '../../../../helpers/error/bad_request_error';
+import service, { SendOtpEmail } from '../../utils/service';
 
 class User {
     private command: Command;
@@ -102,7 +103,15 @@ class User {
             otp: otp,
         }
 
+        const documentSendOtp: SendOtpEmail = {
+            email: payload.email,
+            otp: otp,
+            userName: payload.userName,
+        }
+
         await this.command.upsertOtp(document);
+
+        service.sendOtpEmail(documentSendOtp);
 
         return wrapper.data('Send otp success!')
     }

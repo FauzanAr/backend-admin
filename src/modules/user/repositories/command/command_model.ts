@@ -17,6 +17,7 @@ const userRegister = z.object({
 export type UserSendOtp = z.infer<typeof userSendOtp>
 const userSendOtp = z.object({
     email: z.string().email().min(1).trim(),
+    userName: z.string().min(1).trim(),
 });
 
 export default {

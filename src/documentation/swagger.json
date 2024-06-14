@@ -164,6 +164,10 @@
                         "email": {
                             "type": "string",
                             "description": "User email"
+                        },
+                        "userName": {
+                            "type": "string",
+                            "description": "User name"
                         }
                     }
                 }

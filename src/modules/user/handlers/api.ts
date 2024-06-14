@@ -64,6 +64,7 @@ const userRegister = async (req: Request, res: Response) => {
 const userSendOtp = async (req: Request, res: Response) => {
     const payload: UserSendOtp = {
         email: req.body?.email,
+        userName: req.body.userName,
     };
 
     const validatedData = validator.isValidate(commandModel.userSendOtp, payload);

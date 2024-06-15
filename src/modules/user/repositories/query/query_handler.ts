@@ -1,6 +1,7 @@
 import User from "./domain";
 import connection from '../../../../helpers/databases/mysql/connection';
 import { UserLogin } from "./query_model";
+import { GetUserDetailJWT } from "../../utils/interfaces/query";
 
 const user = new User(connection.getConnection())
 
@@ -13,6 +14,16 @@ const userLogin = async (payload: UserLogin) => {
     return result;
 }
 
+const getUserData = async (payload: GetUserDetailJWT) => {
+    const getData = async () => {
+        return await user.getUserData(payload)
+    };
+
+    const result = await getData();
+    return result;
+}
+
 export default {
     userLogin,
+    getUserData,
 }

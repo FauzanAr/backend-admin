@@ -25,7 +25,7 @@ class Command {
         } catch (error) {
             const errorType = handlePrismaError(error);
             if(errorType.type === 'PRISMA_DUPLICATE_ERROR') {
-                return wrapper.data({});
+                return wrapper.error(new BadRequestError('Bank already registered'));
             }
 
             return wrapper.error(new BadRequestError('Error while saving corporate!'));

@@ -84,11 +84,53 @@
             }
         }
     },
+    "/users/v1/me": {
+        "get": {
+            "summary": "Allow user get detail data",
+            "tags": ["Users"],
+            "security": [
+                {
+                    "bearerAuth": []
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "Success send otp"
+                }
+            }
+        }
+    },
+    "/transactions/v1": {
+        "get": {
+            "summary": "Allow user get transactions",
+            "tags": ["Transactions"],
+            "security": [
+                {
+                    "bearerAuth": []
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "Success send otp"
+                },
+                "400": {
+                    "description": "Bad Request error"
+                },
+                "422": {
+                    "description": "Validation error"
+                }
+            }
+        }
+    },
     "tags": [
 
             {
                 "name": "Users",
                 "description": "The users managing API"
+            },
+            {
+                "name": "Transactions",
+                "description": "Api for transactions"
             }
         ]
     },
@@ -171,6 +213,13 @@
                         }
                     }
                 }
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
             }
         }
     }

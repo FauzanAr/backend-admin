@@ -6,11 +6,12 @@ import bodyParser from 'body-parser';
 import logger from '../helpers/utils/logger';
 import morgan from 'morgan';
 import swagger from './swagger';
-
+import middleware from '../helpers/auth/middleware';
 
 import mysql from '../helpers/databases/mysql/connection';
 
 import userApi from '../modules/user/handlers/api';
+import transactionApi from '../modules/transaction/handlers/api';
 
 class Server {
     server : Express
@@ -31,6 +32,10 @@ class Server {
         this.server.post('/users/v1/login', userApi.userLogin);
         this.server.post('/users/v1/register', userApi.userRegister);
         this.server.post('/users/v1/send/otp', userApi.userSendOtp);
+        this.server.get('/users/v1/me', middleware.verifyAuth, userApi.getUserDetail);
+
+        // Modules Transactions
+        this.server.get('/transactions/v1', middleware.verifyAuth, transactionApi.getTransaction);
     }
 
     async init(port: number) {

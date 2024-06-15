@@ -2,7 +2,7 @@ import MySQL from "../../../../helpers/interfaces/mysql";
 import Query from "./query";
 import wrapper from "../../../../helpers/utils/wrapper";
 import { UserLogin } from "./query_model";
-import { GetUserByUserIdAndCorporateId } from "modules/user/utils/interfaces/query";
+import { GetUserByUserIdAndCorporateId, GetUserDetailJWT } from "modules/user/utils/interfaces/query";
 import { compareHash } from "../../../../helpers/utils/hash";
 import { User } from '../../../../helpers/databases/mysql/connection';
 import UnauthorizedError from "../../../../helpers/error/unauthorized_error";
@@ -44,6 +44,13 @@ class QueryDomain {
         };
         const token = jwt.generateToken(jwtBody)
         return wrapper.data(token)
+    }
+
+    async getUserData(payload: GetUserDetailJWT) {
+        delete payload.iat;
+        delete payload.exp;
+
+        return wrapper.data(payload);
     }
 }
 

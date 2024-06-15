@@ -6,6 +6,7 @@ import queryModel, { UserLogin } from '../repositories/query/query_model';
 import validator from '../../../helpers/utils/validator';
 import CommandHandler from '../repositories/command/command_handler';
 import commandModel, { UserRegister, UserSendOtp } from '../repositories/command/command_model';
+import RequestUser from 'helpers/interfaces/requestUser';
 
 const userLogin = async (req: Request, res: Response) => {
     const payload: UserLogin = {
@@ -84,8 +85,18 @@ const userSendOtp = async (req: Request, res: Response) => {
     sendResponse(await getData(validatedData));
 }
 
+const getUserDetail = async (req: RequestUser, res: Response) => {
+    const sendResponse = async (result: Wrapper) => {
+        (result.err) ? wrapper.response(res, 'fail', result)
+            : wrapper.response(res, 'success', result, 'get user success');
+    };
+
+    sendResponse(await QueryHandler.getUserData(req.user as any));
+}
+
 export default {
     userLogin,
     userRegister,
     userSendOtp,
+    getUserDetail,
 }

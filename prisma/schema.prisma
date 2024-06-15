@@ -8,27 +8,29 @@ datasource db {
 }
 
 model User {
-  id           Int           @id @default(autoincrement())
-  userId       String        @unique @db.VarChar(255)
-  corporateId  Int
-  corporate    Corporate     @relation(fields: [corporateId], references: [id])
-  name         String        @db.VarChar(200)
-  role         String        @db.VarChar(100)
-  phoneNumber  String        @unique @db.VarChar(20)
-  email        String        @unique @db.VarChar(100)
-  password     String        @db.VarChar(255)
-  blockedUntil DateTime?
-  updatedAt    DateTime      @updatedAt
-  createdAt    DateTime      @default(now())
-  lastLoginAt  DateTime      @default(now())
-  Transaction  Transaction[]
+  id              Int               @id @default(autoincrement())
+  userId          String            @unique @db.VarChar(255)
+  corporateId     Int
+  corporate       Corporate         @relation(fields: [corporateId], references: [id])
+  name            String            @db.VarChar(200)
+  role            String            @db.VarChar(100)
+  phoneNumber     String            @unique @db.VarChar(20)
+  email           String            @unique @db.VarChar(100)
+  password        String            @db.VarChar(255)
+  blockedUntil    DateTime?
+  updatedAt       DateTime          @updatedAt
+  createdAt       DateTime          @default(now())
+  lastLoginAt     DateTime          @default(now())
+  Transaction     Transaction[]
+  TransactionList TransactionList[]
 }
 
 model Corporate {
-  id          Int           @id
-  name        String        @db.VarChar(255)
-  User        User[]
-  Transaction Transaction[]
+  id              Int               @id
+  name            String            @db.VarChar(255)
+  User            User[]
+  Transaction     Transaction[]
+  TransactionList TransactionList[]
 }
 
 model UserOtp {
@@ -55,8 +57,12 @@ model Transaction {
 }
 
 model TransactionList {
-  id            Int         @id @default(autoincrement())
-  transactionId Int
-  transaction   Transaction @relation(fields: [transactionId], references: [id])
-  amount        Decimal
+  id                     Int         @id @default(autoincrement())
+  transactionId          Int
+  transaction            Transaction @relation(fields: [transactionId], references: [id])
+  amount                 Decimal
+  userDestinationId      Int         @default(0)
+  userDestination        User        @relation(fields: [userDestinationId], references: [id])
+  corporateDestinationId Int         @default(0)
+  corporateDestination   Corporate   @relation(fields: [corporateDestinationId], references: [id])
 }

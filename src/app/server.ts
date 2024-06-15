@@ -36,6 +36,7 @@ class Server {
 
         // Modules Transactions
         this.server.get('/transactions/v1', middleware.verifyAuth, transactionApi.getTransaction);
+        this.server.get('/transactions/v1/count', middleware.verifyAuth, transactionApi.countTransaction);
     }
 
     async init(port: number) {

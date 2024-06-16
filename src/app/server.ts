@@ -37,6 +37,8 @@ class Server {
         // Modules Transactions
         this.server.get('/transactions/v1', middleware.verifyAuth, transactionApi.getTransaction);
         this.server.get('/transactions/v1/count', middleware.verifyAuth, transactionApi.countTransaction);
+        this.server.post('/transactions/v1/create', middleware.verifyAuth, middleware.makerOnly, transactionApi.createTransaction);
+        this.server.put('/transactions/v1/update/:transactionId', middleware.verifyAuth, middleware.approverOnly, transactionApi.updateTransaction);
     }
 
     async init(port: number) {

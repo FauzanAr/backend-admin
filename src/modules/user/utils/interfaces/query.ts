@@ -23,3 +23,7 @@ export interface GetUserDetailJWT {
     iat?: number
     exp?: number
 }
+
+export interface GetCorporateByIds {
+    id: string []
+}

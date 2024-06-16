@@ -144,6 +144,76 @@
             }
         }
     },
+    "/transactions/v1/create": {
+        "post": {
+            "summary": "Allow user to create transactions",
+            "tags": ["Transactions"],
+            "security": [
+                {
+                    "bearerAuth": []
+                }
+            ],
+            "requestBody": {
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schema/request/transaction-create"
+                        }
+                    }
+                }
+            },
+            "responses": {
+                "200": {
+                    "description": "Success data"
+                },
+                "400": {
+                    "description": "Bad Request error"
+                },
+                "422": {
+                    "description": "Validation error"
+                }
+            }
+        }
+    },
+    "/transactions/v1/update/{transactionId}": {
+        "put": {
+            "summary": "Allow user to update transactions",
+            "tags": ["Transactions"],
+            "security": [
+                {
+                    "bearerAuth": []
+                }
+            ],
+            "parameters": [
+                {
+                    "name": "transactionId",
+                    "in": "path",
+                    "description": "Transaction id want to update",
+                    "required": true
+                }
+            ],
+            "requestBody": {
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schema/request/transaction-update"
+                        }
+                    }
+                }
+            },
+            "responses": {
+                "200": {
+                    "description": "Success data"
+                },
+                "400": {
+                    "description": "Bad Request error"
+                },
+                "422": {
+                    "description": "Validation error"
+                }
+            }
+        }
+    },
     "tags": [
 
             {
@@ -232,6 +302,48 @@
                         "userName": {
                             "type": "string",
                             "description": "User name"
+                        }
+                    }
+                },
+                "transaction-create": {
+                    "type": "object",
+                    "properties": {
+                        "instruction": {
+                            "type": "string",
+                            "description": "Transaction instruction"
+                        },
+                        "transferAt": {
+                            "type": "string",
+                            "description": "Optional if instruction STANDING"
+                        },
+                        "transactionList": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "amount": {
+                                        "type": "integer",
+                                        "description": "Amount of transafer"
+                                    },
+                                    "userDestinationId": {
+                                        "type": "string",
+                                        "description": "User id of destination transaction"
+                                    },
+                                    "corporateDestinationId": {
+                                        "type": "string",
+                                        "description": "Bank id of destination transaction"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "transaction-update": {
+                    "type": "object",
+                    "properties": {
+                        "status": {
+                            "type": "string",
+                            "description": "Status update"
                         }
                     }
                 }

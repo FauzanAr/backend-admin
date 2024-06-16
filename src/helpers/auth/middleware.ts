@@ -39,14 +39,28 @@ const generateToken = (payload: Object) => {
 };
 
 const makerOnly = (req: RequestUser, res: Response, next: NextFunction) => {
+    const userRole = req.user?.role;
+    if (!userRole || userRole !== 'Maker') {
+        const response = wrapper.error(new UnauthorizedError('This action for Maker role only!'));
+        return wrapper.response(res, 'fail', response, 'Error Auth');
+    }
 
+    next();
 };
 
-const approvalOnly = (req: RequestUser, res: Response, next: NextFunction) => {
+const approverOnly = (req: RequestUser, res: Response, next: NextFunction) => {
+    const userRole = req.user?.role;
+    if (!userRole || userRole !== 'Approver') {
+        const response = wrapper.error(new UnauthorizedError('This action for Approver role only!'));
+        return wrapper.response(res, 'fail', response, 'Error Auth');
+    }
 
+    next();
 };
 
 export default {
     verifyAuth,
     generateToken,
+    makerOnly,
+    approverOnly,
 }

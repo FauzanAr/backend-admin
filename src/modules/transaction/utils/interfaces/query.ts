@@ -5,3 +5,7 @@ export interface GetTransaction {
 export interface CountTransaction {
     status: string;
 }
+
+export interface GetTransactionById {
+    id: number;
+}

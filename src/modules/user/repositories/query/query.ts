@@ -1,3 +1,4 @@
+import logger from "../../../../helpers/utils/logger";
 import BadRequestError from "../../../../helpers/error/bad_request_error";
 import NotFoundError from "../../../../helpers/error/not_found_error";
 import MySQL from "../../../../helpers/interfaces/mysql";
@@ -63,6 +64,26 @@ class Query {
             return wrapper.data(result);
         } catch (error) {
             return wrapper.error(new BadRequestError('Failed to get otp!'));
+        }
+    }
+
+    async getCorporateByIds(payload: number[]) {
+        try {
+            const result = await this.mysql.corporate.findMany({
+                where: {
+                    id: {
+                        in: payload
+                    }
+                },
+                select: {
+                    id: true
+                }
+            });
+
+            return wrapper.data(result);
+        } catch (error) {
+            logger.error(`failed to get coporate by ids: ${error}`);
+            return wrapper.error(new BadRequestError('Failed to fetch coporate'))
         }
     }
 }

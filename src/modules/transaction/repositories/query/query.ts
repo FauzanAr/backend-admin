@@ -1,4 +1,4 @@
-import { CountTransaction, GetTransaction } from "../../utils/interfaces/query";
+import { CountTransaction, GetTransaction, GetTransactionById } from "../../utils/interfaces/query";
 import MySQL from "../../../../helpers/interfaces/mysql";
 import wrapper from "../../../../helpers/utils/wrapper";
 import NotFoundError from "../../../../helpers/error/not_found_error";
@@ -52,6 +52,21 @@ class Query {
         } catch (error) {
             logger.error(`Error while get transaction: ${error}`);
             return wrapper.error(new NotFoundError('No transaction found!'));
+        }
+    }
+
+    async getTransactionById (payload: GetTransactionById) {
+        try {
+            const result = await this.mysql.transaction.findUnique({
+                where: {
+                    id: payload.id
+                }
+            })
+
+            return wrapper.data(result);
+        } catch (error) {
+            logger.error(`Error while get transaction by id: ${error}`);
+            return wrapper.error(new BadRequestError('Failed to count transaction'))
         }
     }
 

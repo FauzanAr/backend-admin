@@ -17,7 +17,7 @@ class TransactionDomain {
         if (payload.role === 'Approver') {
             querySearch.status = ['PENDING'];
         } else {
-            querySearch.status = ['PENDING', 'ACCEPTED', 'REJECTED'];
+            querySearch.status = ['PENDING', 'APPROVED', 'REJECTED'];
         }
 
         const transactions = await this.query.getTransaction(querySearch)

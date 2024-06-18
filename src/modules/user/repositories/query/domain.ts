@@ -1,7 +1,7 @@
 import MySQL from "../../../../helpers/interfaces/mysql";
 import Query from "./query";
 import wrapper from "../../../../helpers/utils/wrapper";
-import { UserLogin } from "./query_model";
+import { GetUserByAccount, UserLogin } from "./query_model";
 import { GetUserByUserIdAndCorporateId, GetUserDetailJWT } from "modules/user/utils/interfaces/query";
 import { compareHash } from "../../../../helpers/utils/hash";
 import { User } from '../../../../helpers/databases/mysql/connection';
@@ -51,6 +51,18 @@ class QueryDomain {
         delete payload.exp;
 
         return wrapper.data(payload);
+    }
+
+    async getUserByAccount(payload: GetUserByAccount) {
+        const query = {
+            corporateId: Number(payload.accountNo),
+        }
+        const result = await this.query.getUserByCorporateId(query);
+        if (result.err) {
+            return result;
+        }
+
+        return wrapper.data(result.data);
     }
 }
 

@@ -3,7 +3,7 @@ import BadRequestError from "../../../../helpers/error/bad_request_error";
 import NotFoundError from "../../../../helpers/error/not_found_error";
 import MySQL from "../../../../helpers/interfaces/mysql";
 import wrapper from "../../../../helpers/utils/wrapper";
-import { GetUserByEmail, GetUserByUserIdAndCorporateId, GetUserOtpByEmail } from "../../utils/interfaces/query";
+import { GetUserByCorporateId, GetUserByEmail, GetUserByUserIdAndCorporateId, GetUserOtpByEmail } from "../../utils/interfaces/query";
 
 class Query {
     private mysql: MySQL;
@@ -84,6 +84,25 @@ class Query {
         } catch (error) {
             logger.error(`failed to get coporate by ids: ${error}`);
             return wrapper.error(new BadRequestError('Failed to fetch coporate'))
+        }
+    }
+
+    async getUserByCorporateId(payload: GetUserByCorporateId) {
+        try {
+            const result = await this.mysql.user.findFirst({
+                where: {
+                    corporateId: payload.corporateId
+                },
+                select: {
+                    id: true,
+                    userId: true,
+                }
+            });
+
+            return wrapper.data(result);
+        } catch (error) {
+            logger.error(`failed to get user by corporate id: ${error}`);
+            return wrapper.error(new BadRequestError('Failed to fetch user by corporate id'))
         }
     }
 }

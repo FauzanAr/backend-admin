@@ -7,6 +7,12 @@ const userLogin = z.object({
     password: z.string().min(1).trim(),
 });
 
+export type GetUserByAccount = z.infer<typeof getUserByAccount>
+const getUserByAccount = z.object({
+    accountNo: z.string().min(1).trim(),
+})
+
 export default {
     userLogin,
+    getUserByAccount,
 }

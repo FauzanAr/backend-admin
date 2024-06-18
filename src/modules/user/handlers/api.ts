@@ -2,7 +2,7 @@ import wrapper, { Wrapper } from '../../../helpers/utils/wrapper';
 import Request from '../../../helpers/interfaces/request';
 import Response from '../../../helpers/interfaces/response';
 import QueryHandler from '../repositories/query/query_handler';
-import queryModel, { UserLogin } from '../repositories/query/query_model';
+import queryModel, { GetUserByAccount, UserLogin } from '../repositories/query/query_model';
 import validator from '../../../helpers/utils/validator';
 import CommandHandler from '../repositories/command/command_handler';
 import commandModel, { UserRegister, UserSendOtp } from '../repositories/command/command_model';
@@ -94,9 +94,32 @@ const getUserDetail = async (req: RequestUser, res: Response) => {
     sendResponse(await QueryHandler.getUserData(req.user as any));
 }
 
+const getUserByAccount = async (req: RequestUser, res: Response) => {
+    const payload: GetUserByAccount = {
+        accountNo: req.query?.accountNo?.toString() || '',
+    };
+
+    const validatedData = validator.isValidate(queryModel.getUserByAccount, payload);
+    const getData = async (result: Wrapper) => {
+        if (result.err) {
+            return result;
+        }
+
+        return await QueryHandler.getUserByAccount(result.data)
+    }
+
+    const sendResponse = async (result: Wrapper) => {
+        (result.err) ? wrapper.response(res, 'fail', result)
+            : wrapper.response(res, 'success', result, 'get user success');
+    };
+
+    sendResponse(await getData(validatedData));
+}
+
 export default {
     userLogin,
     userRegister,
     userSendOtp,
     getUserDetail,
+    getUserByAccount,
 }

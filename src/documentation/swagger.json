@@ -100,6 +100,30 @@
             }
         }
     },
+    "/users/v1/account": {
+        "get": {
+            "summary": "Allow get user id by user account id",
+            "tags": ["Users"],
+            "security": [
+                {
+                    "bearerAuth": []
+                }
+            ],
+            "parameters": [
+                {
+                    "in": "query",
+                    "name": "accountNo",
+                    "type": "string",
+                    "description": "Account number of user"
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "Success send otp"
+                }
+            }
+        }
+    },
     "/transactions/v1": {
         "get": {
             "summary": "Allow user get transactions",

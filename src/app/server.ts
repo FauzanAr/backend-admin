@@ -33,6 +33,7 @@ class Server {
         this.server.post('/users/v1/register', userApi.userRegister);
         this.server.post('/users/v1/send/otp', userApi.userSendOtp);
         this.server.get('/users/v1/me', middleware.verifyAuth, userApi.getUserDetail);
+        this.server.get('/users/v1/account', middleware.verifyAuth, userApi.getUserByAccount);
 
         // Modules Transactions
         this.server.get('/transactions/v1', middleware.verifyAuth, transactionApi.getTransaction);

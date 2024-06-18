@@ -27,3 +27,7 @@ export interface GetUserDetailJWT {
 export interface GetCorporateByIds {
     id: string []
 }
+
+export interface GetUserByCorporateId {
+    corporateId: number
+}

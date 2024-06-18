@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  database:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpwd
+      MYSQL_DATABASE: mydatabase
+      MYSQL_USER: fauzan
+      MYSQL_PASSWORD: rootpwd
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  app:
+    build: .
+    ports:
+      - "5000:5000"
+    depends_on:
+      - database
+    environment:
+      DATABASE_URL: mysql://root:rootpwd@database:3306/admin-bank
+
+volumes:
+  mysql_data:
